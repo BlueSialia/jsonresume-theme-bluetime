@@ -25,10 +25,6 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
-          echo "@BlueSialia:registry=https://npm.pkg.github.com" >> ~/.npmrc
-        shell: bash
       - uses: actions/setup-node@v4
         with:
           node-version: 24

@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - 2024-08-07
+## [0.3.1] - 2025-01-09
+
+### Fixed
+- **Browser CDN Import Fix**: Removed problematic `export * from "./types"` that caused browser module loading errors
+- Fixed "types" file import issues when using CDN with `<script type="module">`
+- Improved browser compatibility by eliminating unnecessary runtime type exports
+- Cleaned up global variable assignments that were no longer needed with ES modules
+
+### Changed
+- Simplified module exports for better browser compatibility
+- Removed runtime type exports (types are still available for TypeScript development)
+
+## [0.3.0] - 2025-08-07
 
 ### Added
 - **ES Modules Support**: Complete migration to ES modules for native browser compatibility
@@ -26,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complex UMD/IIFE build scripts
 - Browser-specific build artifacts
 
-## [0.2.0] - 2024-08-07
+## [0.2.0] - 2025-08-07
 
 ### Added
 - **Browser/CDN Support**: Theme now works directly in vanilla JavaScript via CDN
@@ -38,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BREAKING**: Build output changed from CommonJS to UMD format
 - TypeScript configuration updated to output browser-compatible code
 
-## [0.1.0] - 2024-08-07
+## [0.1.0] - 2025-08-07
 
 ### Added
 - Initial release of jsonresume-theme-bluetime

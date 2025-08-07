@@ -897,14 +897,3 @@ export function render(data: JSONResumeSchema): string {
 
 // Export the render function as default for CommonJS compatibility
 export default render;
-
-// Also export types for users of this package
-export * from "./types";
-
-// Make the render function available globally for browser usage
-declare const global: any;
-if (typeof window !== "undefined") {
-  (window as any).JSONResumeThemeBluetime = { render };
-} else if (typeof global !== "undefined") {
-  global.JSONResumeThemeBluetime = { render };
-}

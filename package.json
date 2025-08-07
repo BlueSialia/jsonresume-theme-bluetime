@@ -1,6 +1,6 @@
 {
   "name": "jsonresume-theme-bluetime",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A modern, clean TypeScript-based theme for JSON Resume with responsive design and professional styling",
   "main": "dist/index.js",
   "module": "dist/index.js",
