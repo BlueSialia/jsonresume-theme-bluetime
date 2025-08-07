@@ -1,0 +1,68 @@
+# Source files (we include dist/ in the package)
+src/
+*.ts
+!*.d.ts
+
+# Development files
+resume.html
+tsconfig.json
+
+# Build artifacts that shouldn't be published
+*.tsbuildinfo
+*.log
+test.js
+test-output.html
+resume.html
+
+# Development dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+test/
+tests/
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+coverage/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# CI/CD
+.github/
+.travis.yml
+.circleci/
+
+# Documentation drafts
+docs/
+CONTRIBUTING.md
+CHANGELOG.md
+PUBLISHING.md
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

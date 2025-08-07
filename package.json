@@ -1,21 +1,79 @@
 {
   "name": "jsonresume-theme-bluetime",
-  "version": "1.0.0",
-  "description": "A JSON Resume theme called Bluetime",
-  "main": "src/index.js",
+  "version": "0.1.0",
+  "description": "A modern, clean TypeScript-based theme for JSON Resume with responsive design and professional styling",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/index.min.js": "./dist/index.min.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run clean && npm run compile && npm run minify",
+    "clean": "rimraf dist",
+    "compile": "tsc",
+    "minify": "terser dist/index.js -o dist/index.min.js --compress --mangle",
+    "prepublishOnly": "npm run build",
+    "dev": "tsc --watch",
+    "test": "npm run build && jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "tsc --noEmit",
+    "size": "npm run build && echo 'Compiled size:' && ls -lh dist/index.js && echo 'Minified size:' && ls -lh dist/index.min.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BlueSialia/jsonresume-theme-bluetime.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "jsonresume",
+    "theme",
+    "resume",
+    "cv",
+    "bluetime",
+    "typescript",
+    "html",
+    "responsive",
+    "professional",
+    "career",
+    "portfolio"
+  ],
+  "author": "BlueSialia",
   "license": "MIT",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/BlueSialia/jsonresume-theme-bluetime/issues"
   },
-  "homepage": "https://github.com/BlueSialia/jsonresume-theme-bluetime#readme"
+  "homepage": "https://github.com/BlueSialia/jsonresume-theme-bluetime#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^30.0.5",
+    "rimraf": "^6.0.0",
+    "terser": "^5.43.0",
+    "ts-jest": "^29.4.1",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }

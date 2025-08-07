@@ -1,89 +1,234 @@
-# JSON Resume Bluetime
+# JSONResume Theme Bluetime
 
 ---
 
-A JSON Resume theme called Bluetime.
+A TypeScript-based theme for [JSON Resume](https://jsonresume.org/) called Bluetime.
 
-## Getting Started
+## Installation
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+```bash
+npm install jsonresume-theme-bluetime
+```
+
+## Usage
+
+### Basic Usage
+
+```javascript
+const { render } = require('jsonresume-theme-bluetime');
+
+// Your JSON Resume data
+const resumeData = {
+  basics: {
+    name: "John Doe",
+    label: "Software Developer",
+    email: "john.doe@example.com",
+    phone: "(123) 456-7890",
+    url: "https://johndoe.dev",
+    summary: "Passionate software developer with 5+ years of experience.",
+    location: {
+      city: "San Francisco",
+      region: "CA"
+    }
+  },
+  work: [
+    {
+      name: "Tech Corp",
+      position: "Senior Software Developer",
+      startDate: "2021-03",
+      summary: "Led development of web applications using React and Node.js"
+    }
+  ],
+  // ... more resume data
+};
+
+// Generate HTML
+const htmlResume = render(resumeData);
+
+// Save to file
+const fs = require('fs');
+fs.writeFileSync('resume.html', htmlResume);
+```
+
+### TypeScript Usage
+
+```typescript
+import { render, JSONResumeSchema } from 'jsonresume-theme-bluetime';
+
+const resumeData: JSONResumeSchema = {
+  basics: {
+    name: "John Doe",
+    label: "Software Developer"
+  }
+  // ... your resume data
+};
+
+const htmlResume: string = render(resumeData);
+```
+
+### Using the Minified Version
+
+For production applications where bundle size matters:
+
+```javascript
+// The minified version is available at dist/index.min.js
+const { render } = require('jsonresume-theme-bluetime/dist/index.min.js');
+```
+
+## JSON Resume Schema
+
+This theme supports the complete [JSON Resume Schema](https://jsonresume.org/schema/). The schema includes:
+
+- **basics**: Personal information, contact details, and summary
+- **work**: Work experience and achievements
+- **volunteer**: Volunteer experience
+- **education**: Educational background
+- **awards**: Awards and recognitions
+- **certificates**: Professional certifications
+- **publications**: Published works
+- **skills**: Technical and professional skills
+- **languages**: Language proficiencies
+- **interests**: Personal interests and hobbies
+- **references**: Professional references
+- **projects**: Personal and professional projects
+
+## Theme Customization
+
+The generated HTML includes embedded CSS that you can customize. The theme uses a clean design with:
+
+- Blue accent colors (`#3498db`)
+- Professional typography
+- Responsive layout
+- Clean section separators
+- Skill tags for easy scanning
+
+## Development
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+- Node.js 16 or higher
+- npm or yarn
 
-```
-Give examples
-```
+### Building from Source
 
-### Installing
+```bash
+# Clone the repository
+git clone https://github.com/BlueSialia/jsonresume-theme-bluetime.git
+cd jsonresume-theme-bluetime
 
-A step by step series of examples that tell you have to get a development env running
+# Install dependencies
+npm install
 
-Say what the step will be
+# Build the project
+npm run build
 
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
+# Watch for changes during development
+npm run dev
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+### Project Structure
 
 ```
-Give an example
+src/
+├── index.ts      # Main render function
+├── types.ts      # TypeScript interfaces for JSON Resume schema
+dist/
+├── index.js      # Compiled JavaScript
+├── index.min.js  # Minified version
+├── index.d.ts    # TypeScript declarations
+└── types.d.ts    # Type definitions
 ```
 
-### And coding style tests
+### Scripts
 
-Explain what these tests test and why
+#### Build Scripts
+- `npm run build`: Clean, compile TypeScript, and create minified version
+- `npm run compile`: Compile TypeScript to JavaScript only
+- `npm run minify`: Create minified version from compiled JavaScript
+- `npm run clean`: Remove dist directory
 
+#### Development Scripts
+- `npm run dev`: Watch mode for development (recompiles on file changes)
+- `npm run lint`: Type-check without compilation
+
+#### Testing Scripts
+- `npm test`: Run comprehensive Jest test suite with build
+- `npm run test:watch`: Run tests in watch mode for development
+- `npm run test:coverage`: Run tests with coverage report
+
+#### Utility Scripts
+- `npm run size`: Show compiled and minified file sizes
+- `npm run prepublishOnly`: Automatically runs before publishing
+
+## Testing
+
+This project includes a comprehensive test suite built with Jest and TypeScript. We maintain high test coverage to ensure reliability and catch regressions.
+
+### Test Coverage
+- **93.61%** statement coverage
+- **85.37%** branch coverage
+- **100%** function coverage
+- **96.29%** line coverage
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode during development
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+
+# Run the original legacy test
+npm run test:legacy
 ```
-Give an example
-```
 
-## Deployment
+### What's Tested
 
-Add additional notes about how to deploy this on a live system
+The test suite covers:
+- **Render Function**: All paths through the main render function
+- **HTML Security**: XSS prevention and HTML escaping
+- **All Resume Sections**: Basics, work, education, skills, projects, etc.
+- **Date Handling**: Various date formats and edge cases
+- **Contact Information**: Email, phone, URL formatting with proper links
+- **Social Profiles**: Multiple networks with Font Awesome icons
+- **Error Handling**: Missing fields, malformed data, edge cases
+- **Performance**: Rendering speed benchmarks
+- **Accessibility**: Semantic HTML and proper link attributes
 
-## Built With
-
-* [Typescript](https://www.typescriptlang.org/) - Language
-* [NPM](http://www.npmjs.com/) - Dependency Management
-* [Jasmine](https://jasmine.github.io/) - Testing Framework
+For detailed testing information, see [TESTING.md](TESTING.md).
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Contributions are welcome! Please feel free to:
 
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
-
-## Authors
-
-* **Jorge Domínguez** - *Initial work* - [BlueSialia](https://github.com/BlueSialia)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+MIT License. See [LICENSE](LICENSE) for details.
 
-## Acknowledgments
+## Support
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+If you encounter any issues or have questions:
+
+1. Check the [GitHub Issues](https://github.com/BlueSialia/jsonresume-theme-bluetime/issues)
+2. Create a new issue with a detailed description
+3. Include sample resume data if reporting rendering issues
+
+## Related
+
+- [JSON Resume](https://jsonresume.org/) - The open source initiative to create a JSON-based standard for resumes
+- [JSON Resume Schema](https://jsonresume.org/schema/) - Complete schema documentation
+- [Other JSON Resume Themes](https://jsonresume.org/themes/) - Browse more themes
+
+---
+
+Made with ❤️ by [BlueSialia](https://github.com/BlueSialia)
