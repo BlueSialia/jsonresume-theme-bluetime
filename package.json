@@ -1,0 +1,21 @@
+{
+  "name": "jsonresume-theme-bluetime",
+  "version": "1.0.0",
+  "description": "A JSON Resume theme called Bluetime",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlueSialia/jsonresume-theme-bluetime.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BlueSialia/jsonresume-theme-bluetime/issues"
+  },
+  "homepage": "https://github.com/BlueSialia/jsonresume-theme-bluetime#readme"
+}
