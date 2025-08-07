@@ -6,13 +6,71 @@ A TypeScript-based theme for [JSON Resume](https://jsonresume.org/) called Bluet
 
 ## Installation
 
+### Node.js/NPM
+
 ```bash
 npm install jsonresume-theme-bluetime
 ```
 
+### Browser/CDN
+
+For vanilla JavaScript usage in browsers, you can use the theme directly from a CDN:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js"></script>
+```
+
 ## Usage
 
-### Basic Usage
+### Browser Usage (Vanilla JavaScript)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Resume</title>
+</head>
+<body>
+    <div id="resume-container"></div>
+    
+    <!-- Load the theme from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js"></script>
+    
+    <script>
+        // Your JSON Resume data
+        const resumeData = {
+            basics: {
+                name: "John Doe",
+                label: "Software Developer",
+                email: "john.doe@example.com",
+                phone: "(123) 456-7890",
+                url: "https://johndoe.dev",
+                summary: "Passionate software developer with 5+ years of experience.",
+                location: {
+                    city: "San Francisco",
+                    region: "CA"
+                }
+            },
+            work: [
+                {
+                    name: "Tech Corp",
+                    position: "Senior Software Developer",
+                    startDate: "2021-03",
+                    summary: "Led development of web applications using React and Node.js"
+                }
+            ]
+            // ... more resume data
+        };
+
+        // Render the resume using the global JSONResumeThemeBluetime object
+        const htmlResume = JSONResumeThemeBluetime.render(resumeData);
+        document.getElementById('resume-container').innerHTML = htmlResume;
+    </script>
+</body>
+</html>
+```
+
+### Node.js Usage
 
 ```javascript
 const { render } = require('jsonresume-theme-bluetime');
@@ -66,13 +124,32 @@ const resumeData: JSONResumeSchema = {
 const htmlResume: string = render(resumeData);
 ```
 
-### Using the Minified Version
+### Using the Minified Version (Node.js)
 
 For production applications where bundle size matters:
 
 ```javascript
 // The minified version is available at dist/index.min.js
 const { render } = require('jsonresume-theme-bluetime/dist/index.min.js');
+```
+
+## CDN Usage Notes
+
+When using the CDN version:
+
+- The theme is available as a global `JSONResumeThemeBluetime` object
+- Use `JSONResumeThemeBluetime.render(resumeData)` to generate HTML
+- The minified version is recommended for production: `index.min.js`
+- All styles are embedded in the generated HTML
+- No additional CSS files are needed
+- Compatible with all modern browsers (ES2020+)
+- Uses UMD format - works in both browsers and Node.js
+
+### CDN URLs
+
+```
+https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js
+https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js
 ```
 
 ## JSON Resume Schema
@@ -130,11 +207,11 @@ npm run dev
 
 ```
 src/
-├── index.ts      # Main render function
+├── index.ts      # Main render function with browser compatibility
 ├── types.ts      # TypeScript interfaces for JSON Resume schema
 dist/
-├── index.js      # Compiled JavaScript
-├── index.min.js  # Minified version
+├── index.js      # UMD build (works in both Node.js and browsers)
+├── index.min.js  # Minified UMD version
 ├── index.d.ts    # TypeScript declarations
 └── types.d.ts    # Type definitions
 ```
@@ -143,7 +220,7 @@ dist/
 
 #### Build Scripts
 - `npm run build`: Clean, compile TypeScript, and create minified version
-- `npm run compile`: Compile TypeScript to JavaScript only
+- `npm run compile`: Compile TypeScript to UMD JavaScript
 - `npm run minify`: Create minified version from compiled JavaScript
 - `npm run clean`: Remove dist directory
 
