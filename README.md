@@ -17,12 +17,14 @@ npm install jsonresume-theme-bluetime
 For vanilla JavaScript usage in browsers, you can use the theme directly from a CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js"></script>
+<script type="module">
+  import { render } from "https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js";
+</script>
 ```
 
 ## Usage
 
-### Browser Usage (Vanilla JavaScript)
+### Browser Usage (ES Modules)
 
 ```html
 <!DOCTYPE html>
@@ -33,10 +35,10 @@ For vanilla JavaScript usage in browsers, you can use the theme directly from a 
 <body>
     <div id="resume-container"></div>
     
-    <!-- Load the theme from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js"></script>
-    
-    <script>
+    <script type="module">
+        // Import the render function directly using ES modules
+        import { render } from "https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js";
+        
         // Your JSON Resume data
         const resumeData = {
             basics: {
@@ -62,18 +64,18 @@ For vanilla JavaScript usage in browsers, you can use the theme directly from a 
             // ... more resume data
         };
 
-        // Render the resume using the global JSONResumeThemeBluetime object
-        const htmlResume = JSONResumeThemeBluetime.render(resumeData);
+        // Render the resume using the imported render function
+        const htmlResume = render(resumeData);
         document.getElementById('resume-container').innerHTML = htmlResume;
     </script>
 </body>
 </html>
 ```
 
-### Node.js Usage
+### Node.js Usage (ES Modules)
 
 ```javascript
-const { render } = require('jsonresume-theme-bluetime');
+import { render } from 'jsonresume-theme-bluetime';
 
 // Your JSON Resume data
 const resumeData = {
@@ -108,42 +110,17 @@ const fs = require('fs');
 fs.writeFileSync('resume.html', htmlResume);
 ```
 
-### TypeScript Usage
+## ES Modules Usage Notes
 
-```typescript
-import { render, JSONResumeSchema } from 'jsonresume-theme-bluetime';
+When using the theme:
 
-const resumeData: JSONResumeSchema = {
-  basics: {
-    name: "John Doe",
-    label: "Software Developer"
-  }
-  // ... your resume data
-};
-
-const htmlResume: string = render(resumeData);
-```
-
-### Using the Minified Version (Node.js)
-
-For production applications where bundle size matters:
-
-```javascript
-// The minified version is available at dist/index.min.js
-const { render } = require('jsonresume-theme-bluetime/dist/index.min.js');
-```
-
-## CDN Usage Notes
-
-When using the CDN version:
-
-- The theme is available as a global `JSONResumeThemeBluetime` object
-- Use `JSONResumeThemeBluetime.render(resumeData)` to generate HTML
+- **Browser**: Use `<script type="module">` and `import { render }`
+- **Node.js**: Works with native ES modules (`import` statements)
 - The minified version is recommended for production: `index.min.js`
 - All styles are embedded in the generated HTML
 - No additional CSS files are needed
-- Compatible with all modern browsers (ES2020+)
-- Uses UMD format - works in both browsers and Node.js
+- Compatible with modern browsers supporting ES modules (ES2020+)
+- Uses native ES2020 modules format
 
 ### CDN URLs
 
@@ -151,6 +128,12 @@ When using the CDN version:
 https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js
 https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js
 ```
+
+### Browser Compatibility
+
+- **Modern browsers** (Chrome 61+, Firefox 60+, Safari 11+, Edge 16+)
+- **Node.js** 14.8+ with ES modules support
+- Browsers must support ES modules (`<script type="module">`)
 
 ## JSON Resume Schema
 
@@ -207,11 +190,11 @@ npm run dev
 
 ```
 src/
-├── index.ts      # Main render function with browser compatibility
+├── index.ts      # Main render function with ES modules exports
 ├── types.ts      # TypeScript interfaces for JSON Resume schema
 dist/
-├── index.js      # UMD build (works in both Node.js and browsers)
-├── index.min.js  # Minified UMD version
+├── index.js      # ES2020 modules output
+├── index.min.js  # Minified ES modules version
 ├── index.d.ts    # TypeScript declarations
 └── types.d.ts    # Type definitions
 ```
@@ -220,8 +203,8 @@ dist/
 
 #### Build Scripts
 - `npm run build`: Clean, compile TypeScript, and create minified version
-- `npm run compile`: Compile TypeScript to UMD JavaScript
-- `npm run minify`: Create minified version from compiled JavaScript
+- `npm run compile`: Compile TypeScript to ES2020 modules
+- `npm run minify`: Create minified ES modules version
 - `npm run clean`: Remove dist directory
 
 #### Development Scripts

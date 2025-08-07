@@ -1,32 +1,27 @@
 {
   "name": "jsonresume-theme-bluetime",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A modern, clean TypeScript-based theme for JSON Resume with responsive design and professional styling",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
   "browser": "dist/index.min.js",
+  "type": "module",
   "files": [
     "dist/",
     "src/",
-    "example/",
     "README.md",
     "LICENSE",
     "tsconfig.json"
   ],
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
+    ".": "./dist/index.js",
     "./dist/index.min.js": "./dist/index.min.js"
   },
   "scripts": {
     "build": "npm run clean && npm run compile && npm run minify",
     "clean": "rimraf dist",
     "compile": "tsc",
-    "minify": "terser dist/index.js -o dist/index.min.js --compress --mangle",
+    "minify": "terser dist/index.js -o dist/index.min.js --compress --mangle --module",
     "prepublishOnly": "npm run build",
     "dev": "tsc --watch",
     "test": "npm run build && jest",
@@ -60,22 +55,10 @@
   "homepage": "https://github.com/BlueSialia/jsonresume-theme-bluetime#readme",
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^20.0.0",
     "jest": "^30.0.5",
     "rimraf": "^6.0.0",
     "terser": "^5.43.0",
     "ts-jest": "^29.4.1",
     "typescript": "^5.0.0"
-  },
-  "peerDependencies": {
-    "typescript": ">=4.0.0"
-  },
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   }
 }
