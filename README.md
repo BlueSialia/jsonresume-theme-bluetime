@@ -9,7 +9,7 @@ A TypeScript-based theme for [JSON Resume](https://jsonresume.org/) called Bluet
 ### Node.js/NPM
 
 ```bash
-npm install jsonresume-theme-bluetime
+npm install @bluesialia/jsonresume-theme-bluetime
 ```
 
 ### Browser/CDN
@@ -18,7 +18,7 @@ For vanilla JavaScript usage in browsers, you can use the theme directly from a 
 
 ```html
 <script type="module">
-  import { render } from "https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js";
+  import { render } from "https://cdn.jsdelivr.net/npm/@bluesialia/jsonresume-theme-bluetime/dist/index.js";
 </script>
 ```
 
@@ -37,7 +37,7 @@ For vanilla JavaScript usage in browsers, you can use the theme directly from a 
     
     <script type="module">
         // Import the render function directly using ES modules
-        import { render } from "https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js";
+        import { render } from "https://cdn.jsdelivr.net/npm/@bluesialia/jsonresume-theme-bluetime/dist/index.js";
         
         // Your JSON Resume data
         const resumeData = {
@@ -75,7 +75,7 @@ For vanilla JavaScript usage in browsers, you can use the theme directly from a 
 ### Node.js Usage (ES Modules)
 
 ```javascript
-import { render } from 'jsonresume-theme-bluetime';
+import { render } from '@bluesialia/jsonresume-theme-bluetime';
 
 // Your JSON Resume data
 const resumeData = {
@@ -125,8 +125,8 @@ When using the theme:
 ### CDN URLs
 
 ```
-https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.js
-https://cdn.jsdelivr.net/npm/jsonresume-theme-bluetime/dist/index.min.js
+https://cdn.jsdelivr.net/npm/@bluesialia/jsonresume-theme-bluetime/dist/index.js
+https://cdn.jsdelivr.net/npm/@bluesialia/jsonresume-theme-bluetime/dist/index.min.js
 ```
 
 ### Browser Compatibility
