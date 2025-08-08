@@ -12,10 +12,13 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/tests/setup.ts"],
   verbose: true,
   testTimeout: 30000,
-  globals: {
-    "ts-jest": {
-      tsconfig: "tests/tsconfig.json",
-    },
+  transform: {
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        tsconfig: "tests/tsconfig.json",
+      },
+    ],
   },
   moduleFileExtensions: ["ts", "js"],
   testPathIgnorePatterns: ["<rootDir>/dist/"],

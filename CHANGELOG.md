@@ -5,8 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.1] - 2025-01-09
+## [0.4.0] - 2025-08-08
 
+### Added
+- TypeScript namespace organization for better code structure
+- Enhanced maintainability with logical code separation
+- GitHub Package Registry publishing support
+
+### Changed
+- **BREAKING**: Package name changed from `jsonresume-theme-bluetime` to `@bluesialia/jsonresume-theme-bluetime`
+- Complete internal code refactoring using TypeScript namespaces:
+  - `HTMLUtils` namespace for HTML manipulation and security functions
+  - `ContentUtils` namespace for content formatting utilities
+  - `SectionCreators` namespace for individual resume section generators
+  - Extracted CSS styles into dedicated `THEME_STYLES` constant
+- Modernized Jest configuration to remove deprecated warnings
+
+### Migration Guide
+- For npm users: Update import to use `@bluesialia/jsonresume-theme-bluetime`
+- For CDN users: Update URL to use the scoped package name
+
+## [0.3.1] - 2025-08-07
 ### Fixed
 - **Browser CDN Import Fix**: Removed problematic `export * from "./types"` that caused browser module loading errors
 - Fixed "types" file import issues when using CDN with `<script type="module">`

@@ -1,6 +1,6 @@
 {
-  "name": "jsonresume-theme-bluetime",
-  "version": "0.3.1",
+  "name": "@bluesialia/jsonresume-theme-bluetime",
+  "version": "0.4.0",
   "description": "A modern, clean TypeScript-based theme for JSON Resume with responsive design and professional styling",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -47,7 +47,7 @@
     "career",
     "portfolio"
   ],
-  "author": "BlueSialia",
+  "author": "Jorge Domínguez Arnáez (BlueSialia) <bluesialia@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BlueSialia/jsonresume-theme-bluetime/issues"
