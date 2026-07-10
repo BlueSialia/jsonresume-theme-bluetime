@@ -1,5 +1,8 @@
+import { describe, test } from "node:test";
+import assert from "node:assert/strict";
 import { render } from "../src/index";
 import { JSONResumeSchema } from "../src/types";
+import { assertValidHTML } from "./setup.ts";
 
 describe("Functional Tests", () => {
   describe("Contact Information Rendering", () => {
@@ -10,8 +13,8 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toContain("mailto:test@example.com");
-      expect(result).toContain("fa-envelope");
+      assert.ok(result.includes("mailto:test@example.com"), `Expected to contain "mailto:test@example.com"`);
+      assert.ok(result.includes("fa-envelope"), `Expected to contain "fa-envelope"`);
     });
 
     test("should render phone with tel link", () => {
@@ -21,8 +24,8 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toContain("tel:+1-555-123-4567");
-      expect(result).toContain("fa-phone");
+      assert.ok(result.includes("tel:+1-555-123-4567"), `Expected to contain "tel:+1-555-123-4567"`);
+      assert.ok(result.includes("fa-phone"), `Expected to contain "fa-phone"`);
     });
 
     test("should render URL with proper link", () => {
@@ -32,9 +35,9 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toContain('href="https://example.com"');
-      expect(result).toContain("example.com"); // Should strip protocol from display
-      expect(result).toContain("fa-globe");
+      assert.ok(result.includes('href="https://example.com"'), `Expected to contain 'href="https://example.com"'`);
+      assert.ok(result.includes("example.com"), `Expected to contain "example.com"`); // Should strip protocol from display
+      assert.ok(result.includes("fa-globe"), `Expected to contain "fa-globe"`);
     });
 
     test("should strip protocol from URL display", () => {
@@ -44,8 +47,8 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toContain("www.example.com/portfolio");
-      expect(result).not.toContain(">https://www.example.com/portfolio<");
+      assert.ok(result.includes("www.example.com/portfolio"), `Expected to contain "www.example.com/portfolio"`);
+      assert.ok(!result.includes(">https://www.example.com/portfolio<"), `Expected not to contain ">https://www.example.com/portfolio<"`);
     });
 
     test("should handle HTTP and HTTPS URLs", () => {
@@ -55,8 +58,8 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toContain("example.com");
-      expect(result).toContain('href="http://example.com"');
+      assert.ok(result.includes("example.com"), `Expected to contain "example.com"`);
+      assert.ok(result.includes('href="http://example.com"'), `Expected to contain 'href="http://example.com"'`);
     });
   });
 
@@ -82,12 +85,12 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("fa-linkedin");
-      expect(result).toContain("fa-github");
-      expect(result).toContain("fa-twitter");
-      expect(result).toContain("linkedin.com/in/johndoe");
-      expect(result).toContain("github.com/johndoe");
-      expect(result).toContain("twitter.com/johndoe");
+      assert.ok(result.includes("fa-linkedin"), `Expected to contain "fa-linkedin"`);
+      assert.ok(result.includes("fa-github"), `Expected to contain "fa-github"`);
+      assert.ok(result.includes("fa-twitter"), `Expected to contain "fa-twitter"`);
+      assert.ok(result.includes("linkedin.com/in/johndoe"), `Expected to contain "linkedin.com/in/johndoe"`);
+      assert.ok(result.includes("github.com/johndoe"), `Expected to contain "github.com/johndoe"`);
+      assert.ok(result.includes("twitter.com/johndoe"), `Expected to contain "twitter.com/johndoe"`);
     });
 
     test("should handle profiles without network", () => {
@@ -101,7 +104,7 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toBeValidHTML();
+      assertValidHTML(result);
     });
 
     test("should handle profiles without URL", () => {
@@ -115,7 +118,7 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toBeValidHTML();
+      assertValidHTML(result);
     });
   });
 
@@ -134,11 +137,11 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("123 Main Street");
-      expect(result).toContain("San Francisco");
-      expect(result).toContain("California");
-      expect(result).toContain("94102");
-      expect(result).toContain("US");
+      assert.ok(result.includes("123 Main Street"), `Expected to contain "123 Main Street"`);
+      assert.ok(result.includes("San Francisco"), `Expected to contain "San Francisco"`);
+      assert.ok(result.includes("California"), `Expected to contain "California"`);
+      assert.ok(result.includes("94102"), `Expected to contain "94102"`);
+      assert.ok(result.includes("US"), `Expected to contain "US"`);
     });
 
     test("should render partial location", () => {
@@ -152,8 +155,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("New York");
-      expect(result).toContain("US");
+      assert.ok(result.includes("New York"), `Expected to contain "New York"`);
+      assert.ok(result.includes("US"), `Expected to contain "US"`);
     });
 
     test("should handle empty location object", () => {
@@ -163,7 +166,7 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      expect(result).toBeValidHTML();
+      assertValidHTML(result);
     });
   });
 
@@ -184,9 +187,9 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Improved performance by 50%");
-      expect(result).toContain("Led team of 5 developers");
-      expect(result).toContain("Implemented CI/CD pipeline");
+      assert.ok(result.includes("Improved performance by 50%"), `Expected to contain "Improved performance by 50%"`);
+      assert.ok(result.includes("Led team of 5 developers"), `Expected to contain "Led team of 5 developers"`);
+      assert.ok(result.includes("Implemented CI/CD pipeline"), `Expected to contain "Implemented CI/CD pipeline"`);
     });
 
     test("should handle work without highlights", () => {
@@ -201,8 +204,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Company");
-      expect(result).toContain("Just a summary without highlights");
+      assert.ok(result.includes("Company"), `Expected to contain "Company"`);
+      assert.ok(result.includes("Just a summary without highlights"), `Expected to contain "Just a summary without highlights"`);
     });
 
     test("should render work location", () => {
@@ -217,7 +220,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Remote, USA");
+      assert.ok(result.includes("Remote, USA"), `Expected to contain "Remote, USA"`);
     });
 
     test("should render work URL", () => {
@@ -232,7 +235,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("techstartup.com");
+      assert.ok(result.includes("techstartup.com"), `Expected to contain "techstartup.com"`);
     });
   });
 
@@ -249,9 +252,9 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Data Structures");
-      expect(result).toContain("Algorithms");
-      expect(result).toContain("Database Systems");
+      assert.ok(result.includes("Data Structures"), `Expected to contain "Data Structures"`);
+      assert.ok(result.includes("Algorithms"), `Expected to contain "Algorithms"`);
+      assert.ok(result.includes("Database Systems"), `Expected to contain "Database Systems"`);
     });
 
     test("should render education courses", () => {
@@ -266,8 +269,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("University");
-      expect(result).toContain("Computer Science");
+      assert.ok(result.includes("University"), `Expected to contain "University"`);
+      assert.ok(result.includes("Computer Science"), `Expected to contain "Computer Science"`);
     });
 
     test("should handle education without score", () => {
@@ -281,8 +284,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("University");
-      expect(result).toContain("Computer Science");
+      assert.ok(result.includes("University"), `Expected to contain "University"`);
+      assert.ok(result.includes("Computer Science"), `Expected to contain "Computer Science"`);
     });
   });
 
@@ -298,9 +301,9 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("React");
-      expect(result).toContain("Vue.js");
-      expect(result).toContain("Angular");
+      assert.ok(result.includes("React"), `Expected to contain "React"`);
+      assert.ok(result.includes("Vue.js"), `Expected to contain "Vue.js"`);
+      assert.ok(result.includes("Angular"), `Expected to contain "Angular"`);
     });
 
     test("should handle skill level", () => {
@@ -315,8 +318,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Expert");
-      expect(result).toContain("ES6+");
+      assert.ok(result.includes("Expert"), `Expected to contain "Expert"`);
+      assert.ok(result.includes("ES6+"), `Expected to contain "ES6+"`);
     });
 
     test("should handle empty keywords array", () => {
@@ -330,7 +333,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Programming");
+      assert.ok(result.includes("Programming"), `Expected to contain "Programming"`);
     });
   });
 
@@ -347,8 +350,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("mystore.com");
-      expect(result).toContain('href="https://mystore.com"');
+      assert.ok(result.includes("mystore.com"), `Expected to contain "mystore.com"`);
+      assert.ok(result.includes('href="https://mystore.com"'), `Expected to contain 'href="https://mystore.com"'`);
     });
 
     test("should render project keywords", () => {
@@ -362,9 +365,9 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("React Native");
-      expect(result).toContain("iOS");
-      expect(result).toContain("Android");
+      assert.ok(result.includes("React Native"), `Expected to contain "React Native"`);
+      assert.ok(result.includes("iOS"), `Expected to contain "iOS"`);
+      assert.ok(result.includes("Android"), `Expected to contain "Android"`);
     });
 
     test("should handle project dates", () => {
@@ -379,8 +382,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("2023-01");
-      expect(result).toContain("2023-06");
+      assert.ok(result.includes("2023-01"), `Expected to contain "2023-01"`);
+      assert.ok(result.includes("2023-06"), `Expected to contain "2023-06"`);
     });
   });
 
@@ -400,8 +403,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Organized fundraising events");
-      expect(result).toContain("Managed volunteer team");
+      assert.ok(result.includes("Organized fundraising events"), `Expected to contain "Organized fundraising events"`);
+      assert.ok(result.includes("Managed volunteer team"), `Expected to contain "Managed volunteer team"`);
     });
 
     test("should render volunteer URL", () => {
@@ -415,7 +418,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("opensource.org");
+      assert.ok(result.includes("opensource.org"), `Expected to contain "opensource.org"`);
     });
   });
 
@@ -428,8 +431,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("John Doe");
-      expect(result).toBeValidHTML();
+      assert.ok(result.includes("John Doe"), `Expected to contain "John Doe"`);
+      assertValidHTML(result);
     });
 
     test("should render all supported sections when provided", () => {
@@ -446,9 +449,9 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toBeValidHTML();
-      expect(result).toContain("Company");
-      expect(result).toContain("University");
+      assertValidHTML(result);
+      assert.ok(result.includes("Company"), `Expected to contain "Company"`);
+      assert.ok(result.includes("University"), `Expected to contain "University"`);
     });
   });
 
@@ -459,26 +462,26 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain('class="resume-container"');
-      expect(result).toContain('class="left-column"');
-      expect(result).toContain('class="right-column"');
+      assert.ok(result.includes('class="resume-container"'), `Expected to contain 'class="resume-container"'`);
+      assert.ok(result.includes('class="left-column"'), `Expected to contain 'class="left-column"'`);
+      assert.ok(result.includes('class="right-column"'), `Expected to contain 'class="right-column"'`);
     });
 
     test("should include Font Awesome icons", () => {
       const result = render({});
-      expect(result).toContain("font-awesome");
+      assert.ok(result.includes("font-awesome"), `Expected to contain "font-awesome"`);
     });
 
     test("should include Google Fonts", () => {
       const result = render({});
-      expect(result).toContain("fonts.googleapis.com");
-      expect(result).toContain("Lato");
+      assert.ok(result.includes("fonts.googleapis.com"), `Expected to contain "fonts.googleapis.com"`);
+      assert.ok(result.includes("Lato"), `Expected to contain "Lato"`);
     });
 
     test("should have responsive design classes", () => {
       const result = render({});
-      expect(result).toContain("flex");
-      expect(result).toContain("max-width");
+      assert.ok(result.includes("flex"), `Expected to contain "flex"`);
+      assert.ok(result.includes("max-width"), `Expected to contain "max-width"`);
     });
   });
 
@@ -495,8 +498,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("invalid-date"); // Should preserve as-is
-      expect(result).toBeValidHTML();
+      assert.ok(result.includes("invalid-date"), `Expected to contain "invalid-date"`); // Should preserve as-is
+      assertValidHTML(result);
     });
 
     test("should handle missing required fields", () => {
@@ -511,8 +514,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("Some work experience");
-      expect(result).toBeValidHTML();
+      assert.ok(result.includes("Some work experience"), `Expected to contain "Some work experience"`);
+      assertValidHTML(result);
     });
 
     test("should handle unicode characters", () => {
@@ -524,10 +527,10 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("José María García-López");
-      expect(result).toContain("Développeur");
-      expect(result).toContain("café ☕");
-      expect(result).toContain("résumé");
+      assert.ok(result.includes("José María García-López"), `Expected to contain "José María García-López"`);
+      assert.ok(result.includes("Développeur"), `Expected to contain "Développeur"`);
+      assert.ok(result.includes("café ☕"), `Expected to contain "café ☕"`);
+      assert.ok(result.includes("résumé"), `Expected to contain "résumé"`);
     });
 
     test("should handle very long content", () => {
@@ -541,8 +544,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain(longSummary);
-      expect(result.length).toBeGreaterThan(2000);
+      assert.ok(result.includes(longSummary), `Expected to contain long summary`);
+      assert.ok(result.length > 2000, `Expected length > 2000, got ${result.length}`);
     });
   });
 
@@ -560,9 +563,9 @@ describe("Functional Tests", () => {
       const rightColumnIndex = result.indexOf('class="right-column"');
       const emailIndex = result.indexOf("john@example.com");
 
-      expect(leftColumnIndex).toBeLessThan(rightColumnIndex);
-      expect(emailIndex).toBeGreaterThan(leftColumnIndex);
-      expect(emailIndex).toBeLessThan(rightColumnIndex);
+      assert.ok(leftColumnIndex < rightColumnIndex, `Expected leftColumnIndex (${leftColumnIndex}) < rightColumnIndex (${rightColumnIndex})`);
+      assert.ok(emailIndex > leftColumnIndex, `Expected emailIndex (${emailIndex}) > leftColumnIndex (${leftColumnIndex})`);
+      assert.ok(emailIndex < rightColumnIndex, `Expected emailIndex (${emailIndex}) < rightColumnIndex (${rightColumnIndex})`);
     });
 
     test("should place work experience in right column", () => {
@@ -579,7 +582,7 @@ describe("Functional Tests", () => {
       const rightColumnIndex = result.indexOf('class="right-column"');
       const companyIndex = result.indexOf("Tech Company");
 
-      expect(companyIndex).toBeGreaterThan(rightColumnIndex);
+      assert.ok(companyIndex > rightColumnIndex, `Expected companyIndex (${companyIndex}) > rightColumnIndex (${rightColumnIndex})`);
     });
   });
 
@@ -598,8 +601,8 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain('href="mailto:test@example.com"');
-      expect(result).toContain('href="https://linkedin.com/in/test"');
+      assert.ok(result.includes('href="mailto:test@example.com"'), `Expected to contain 'href="mailto:test@example.com"'`);
+      assert.ok(result.includes('href="https://linkedin.com/in/test"'), `Expected to contain 'href="https://linkedin.com/in/test"'`);
     });
 
     test("should have semantic HTML structure", () => {
@@ -609,9 +612,9 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      expect(result).toContain("<h1");
-      expect(result).toContain("<h2");
-      expect(result).toContain("<div");
+      assert.ok(result.includes("<h1"), `Expected to contain "<h1"`);
+      assert.ok(result.includes("<h2"), `Expected to contain "<h2"`);
+      assert.ok(result.includes("<div"), `Expected to contain "<div"`);
     });
   });
 });

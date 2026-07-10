@@ -1,55 +1,18 @@
-// Jest setup file for test initialization
-// This file runs before each test suite
+import assert from "node:assert/strict";
 
-// Extend Jest matchers if needed
-// import 'jest-extended';
-
-// Global test utilities
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toContainHTML(html: string): R;
-      toBeValidHTML(): R;
-    }
-  }
+export function assertContainsHTML(received: string, expected: string): void {
+  assert.ok(
+    received.includes(expected),
+    `Expected HTML to contain "${expected}"`
+  );
 }
 
-// Custom matcher to check if a string contains HTML
-expect.extend({
-  toContainHTML(received: string, expected: string) {
-    const pass = received.includes(expected);
-    if (pass) {
-      return {
-        message: () => `expected ${received} not to contain HTML ${expected}`,
-        pass: true,
-      };
-    } else {
-      return {
-        message: () => `expected ${received} to contain HTML ${expected}`,
-        pass: false,
-      };
-    }
-  },
-
-  toBeValidHTML(received: string) {
-    // Basic HTML validation - checks for balanced tags and basic structure
-    const hasBasicStructure =
-      received.includes("<div") && received.includes("</div>");
-    const hasResumeContainer = received.includes('class="resume-container"');
-
-    if (hasBasicStructure && hasResumeContainer) {
-      return {
-        message: () => `expected ${received} not to be valid HTML`,
-        pass: true,
-      };
-    } else {
-      return {
-        message: () =>
-          `expected ${received} to be valid HTML with resume container`,
-        pass: false,
-      };
-    }
-  },
-});
-
-export {};
+export function assertValidHTML(received: string): void {
+  const hasBasicStructure =
+    received.includes("<div") && received.includes("</div>");
+  const hasResumeContainer = received.includes('class="resume-container"');
+  assert.ok(
+    hasBasicStructure && hasResumeContainer,
+    "Expected valid HTML with resume container"
+  );
+}
