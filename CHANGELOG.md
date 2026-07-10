@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.4.2...jsonresume-theme-bluetime-v0.5.0) (2026-07-10)
+
+
+### Features
+
+* add awards, certificates, and publications sections to resume ([58aa04a](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/58aa04aaa1dee6c552810a14751dc25f461812ad))
+* set up CI, release automation, and ethical licensing ([b440faf](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/b440faf0d1a39463b418b38d251074d6094d9100))
+
 ## [0.4.2] - 2025-08-08
 
 ### Changed
