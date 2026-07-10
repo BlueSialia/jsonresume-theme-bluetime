@@ -199,43 +199,45 @@ const THEME_STYLES = `
     font-size: 14px;
 
     h1, h2, h3, h4 {
-      margin-top: 0;
-      margin-bottom: 10px;
+      margin-top: -2px;
+      margin-bottom: 4px;
     }
 
     p {
-      margin: 5px 0 0 0;
+      margin: 0;
     }
 
     .left-column {
-      flex: 1;
-      padding: 10px;
+      flex: 3;
       background-color: #f4f4f9;
       border-radius: 12px;
     }
 
     .right-column {
-      flex: 2;
-      padding: 10px 10px 10px 0;
+      flex: 7;
     }
 
     .section {
       position: relative;
-      margin: 10px;
+      margin: 12px 5%;
+      @media only print {
+        margin: 12px 10px;
+      }
       break-inside: avoid;
 
       .section-item {
-        margin: 5px;
+        padding: 6px;
         break-inside: avoid;
 
         h3 {
           display: inline-block;
-          margin-right: 10px;
+          margin: 0 10px 0 0;
         }
 
         h4 {
           display: inline-block;
           color: #666;
+          margin: 0;
         }
       }
 
@@ -243,7 +245,7 @@ const THEME_STYLES = `
         position: relative;
         display: flex;
         align-items: flex-start;
-        margin-top: 10px;
+        margin: 6px 0;
         break-inside: avoid;
 
         h3 {
@@ -252,7 +254,7 @@ const THEME_STYLES = `
         }
 
         h4 {
-          margin: 10px 0;
+          margin: 6px 0;
         }
 
         .timeline {
@@ -305,25 +307,20 @@ const THEME_STYLES = `
 
       .highlights, .courses {
         padding-left: 15px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-
-      .highlights li, .courses li {
-        margin-bottom: 5px;
+        margin: 5px 0;
       }
 
       .chips {
         display: flex;
+        margin: 4px 0;
         flex-wrap: wrap;
         gap: 5px;
-        margin-bottom: 10px;
       }
 
       .chip {
         background-color: #007BFF;
         color: white;
-        padding: 4px 8px;
+        padding: 3px 6px;
         border-radius: 20px;
         font-size: 12px;
       }
@@ -352,12 +349,23 @@ const THEME_STYLES = `
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 10px;
+      margin: 10px 0;
     }
 
     .contact-item {
       text-decoration: none;
       color: #007BFF;
+    }
+  }
+
+  @media print {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .resume-container {
+      padding: 0;
     }
   }
 </style>
@@ -443,45 +451,6 @@ namespace SectionCreators {
   }
 
   /**
-   * Creates a section and its content for Languages based on the given data.
-   *
-   * @param languages - An array of language objects (language, fluency).
-   * @returns The generated HTML string for the Languages section.
-   */
-  export function createLanguagesSection(
-    languages: JSONResumeSchema["languages"],
-  ): string {
-    if (!languages || languages.length === 0) return "";
-
-    let content = "";
-
-    for (const language of languages) {
-      const { language: lang, fluency } = language;
-      let languageItem = `<div class="section-item">`;
-
-      if (lang) {
-        languageItem += HTMLUtils.createElement(
-          "h3",
-          "",
-          lang,
-        );
-      }
-      if (fluency) {
-        languageItem += HTMLUtils.createElement(
-          "h4",
-          "subtitle",
-          fluency,
-        );
-      }
-
-      languageItem += `</div>`;
-      content += languageItem;
-    }
-
-    return HTMLUtils.createSection("Languages", content);
-  }
-
-  /**
    * Creates a section and its content for Skills based on the given data.
    *
    * @param skills - An array of skill objects (name, level, keywords).
@@ -520,6 +489,45 @@ namespace SectionCreators {
     }
 
     return HTMLUtils.createSection("Skills", content);
+  }
+
+  /**
+   * Creates a section and its content for Languages based on the given data.
+   *
+   * @param languages - An array of language objects (language, fluency).
+   * @returns The generated HTML string for the Languages section.
+   */
+  export function createLanguagesSection(
+    languages: JSONResumeSchema["languages"],
+  ): string {
+    if (!languages || languages.length === 0) return "";
+
+    let content = "";
+
+    for (const language of languages) {
+      const { language: lang, fluency } = language;
+      let languageItem = `<div class="section-item">`;
+
+      if (lang) {
+        languageItem += HTMLUtils.createElement(
+          "h3",
+          "",
+          lang,
+        );
+      }
+      if (fluency) {
+        languageItem += HTMLUtils.createElement(
+          "h4",
+          "subtitle",
+          fluency,
+        );
+      }
+
+      languageItem += `</div>`;
+      content += languageItem;
+    }
+
+    return HTMLUtils.createSection("Languages", content);
   }
 
   /**
@@ -1195,12 +1203,12 @@ function createLeftColumn(data: JSONResumeSchema): string {
     leftColumn += SectionCreators.createBasicsSection(data.basics);
   }
 
-  if (data.languages) {
-    leftColumn += SectionCreators.createLanguagesSection(data.languages);
-  }
-
   if (data.skills) {
     leftColumn += SectionCreators.createSkillsSection(data.skills);
+  }
+
+  if (data.languages) {
+    leftColumn += SectionCreators.createLanguagesSection(data.languages);
   }
 
   if (data.interests) {
