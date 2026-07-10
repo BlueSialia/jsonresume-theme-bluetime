@@ -92,21 +92,21 @@ namespace ContentUtils {
       contactInfo += HTMLUtils.createElement(
         "span",
         "contact-item",
-        `<i class="fas fa-envelope"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(email), { href: "mailto:" + email })}`,
+        `<i class="fa-solid fa-envelope"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(email), { href: "mailto:" + email })}`,
       );
     }
     if (phone) {
       contactInfo += HTMLUtils.createElement(
         "span",
         "contact-item",
-        `<i class="fas fa-phone"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(phone), { href: "tel:" + phone })}`,
+        `<i class="fa-solid fa-phone"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(phone), { href: "tel:" + phone })}`,
       );
     }
     if (url) {
       contactInfo += HTMLUtils.createElement(
         "span",
         "contact-item",
-        `<i class="fas fa-globe"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")), { href: url })}`,
+        `<i class="fa-solid fa-globe"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")), { href: url })}`,
       );
     }
     for (const profile of profiles) {
@@ -744,6 +744,8 @@ namespace SectionCreators {
         keywords,
         startDate,
         endDate,
+        entity,
+        roles,
       } = project;
       let projectItem = `<div class="timeline-section-item">`;
 
@@ -796,6 +798,18 @@ namespace SectionCreators {
           "p",
           "",
           HTMLUtils.safeText(description),
+        );
+      }
+
+      if (entity || (roles && roles.length > 0)) {
+        const parts: string[] = [];
+        if (entity) parts.push(HTMLUtils.safeText(entity));
+        if (roles && roles.length > 0)
+          parts.push(HTMLUtils.safeText(roles.join(", ")));
+        projectItem += HTMLUtils.createElement(
+          "span",
+          "description",
+          parts.join(" - "),
         );
       }
 
@@ -933,7 +947,7 @@ namespace SectionCreators {
     let educationSection = HTMLUtils.createSection("Education");
 
     for (const edu of education) {
-      const { institution, url, area, studyType, courses, startDate, endDate } =
+      const { institution, url, area, studyType, score, courses, startDate, endDate } =
         edu;
 
       let eduItem = `<div class="timeline-section-item">`;
@@ -999,6 +1013,14 @@ namespace SectionCreators {
         eduItem += areaStudy;
       }
 
+      if (score) {
+        eduItem += HTMLUtils.createElement(
+          "span",
+          "description",
+          "GPA: " + HTMLUtils.safeText(score),
+        );
+      }
+
       if (courses && courses.length > 0) {
         let courseList = `<ul class="courses">`;
         for (const course of courses) {
@@ -1019,6 +1041,159 @@ namespace SectionCreators {
 
     educationSection += `</div>`;
     return educationSection;
+  }
+
+  export function createAwardsSection(
+    awards: JSONResumeSchema["awards"],
+  ): string {
+    if (!awards || awards.length === 0) return "";
+
+    let awardsSection = HTMLUtils.createSection("Awards");
+
+    for (const award of awards) {
+      const { title, date, awarder, summary } = award;
+      let awardItem = `<div class="section-item">`;
+
+      if (title) {
+        awardItem += HTMLUtils.createElement(
+          "h3",
+          "",
+          HTMLUtils.safeText(title),
+        );
+      }
+      if (awarder) {
+        awardItem += HTMLUtils.createElement(
+          "h4",
+          "subtitle",
+          HTMLUtils.safeText(awarder),
+        );
+      }
+      if (date) {
+        awardItem += HTMLUtils.createElement(
+          "span",
+          "description",
+          HTMLUtils.safeText(date),
+        );
+      }
+      if (summary) {
+        awardItem += HTMLUtils.createElement(
+          "p",
+          "",
+          HTMLUtils.safeText(summary),
+        );
+      }
+
+      awardItem += `</div>`;
+      awardsSection += awardItem;
+    }
+
+    awardsSection += `</div>`;
+    return awardsSection;
+  }
+
+  export function createCertificatesSection(
+    certificates: JSONResumeSchema["certificates"],
+  ): string {
+    if (!certificates || certificates.length === 0) return "";
+
+    let certificatesSection = HTMLUtils.createSection("Certificates");
+
+    for (const cert of certificates) {
+      const { name, date, url, issuer } = cert;
+      let certItem = `<div class="section-item">`;
+
+      if (name) {
+        certItem += HTMLUtils.createElement(
+          "h3",
+          "",
+          HTMLUtils.safeText(name),
+        );
+      }
+      if (issuer) {
+        certItem += HTMLUtils.createElement(
+          "h4",
+          "subtitle",
+          HTMLUtils.safeText(issuer),
+        );
+      }
+      if (date) {
+        certItem += HTMLUtils.createElement(
+          "span",
+          "description",
+          HTMLUtils.safeText(date),
+        );
+      }
+      if (url) {
+        certItem += HTMLUtils.createElement(
+          "a",
+          "description",
+          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
+          { href: url },
+        );
+      }
+
+      certItem += `</div>`;
+      certificatesSection += certItem;
+    }
+
+    certificatesSection += `</div>`;
+    return certificatesSection;
+  }
+
+  export function createPublicationsSection(
+    publications: JSONResumeSchema["publications"],
+  ): string {
+    if (!publications || publications.length === 0) return "";
+
+    let publicationsSection = HTMLUtils.createSection("Publications");
+
+    for (const pub of publications) {
+      const { name, publisher, releaseDate, url, summary } = pub;
+      let pubItem = `<div class="section-item">`;
+
+      if (name) {
+        pubItem += HTMLUtils.createElement(
+          "h3",
+          "",
+          HTMLUtils.safeText(name),
+        );
+      }
+      if (publisher) {
+        pubItem += HTMLUtils.createElement(
+          "h4",
+          "subtitle",
+          HTMLUtils.safeText(publisher),
+        );
+      }
+      if (releaseDate) {
+        pubItem += HTMLUtils.createElement(
+          "span",
+          "description",
+          HTMLUtils.safeText(releaseDate),
+        );
+      }
+      if (url) {
+        pubItem += HTMLUtils.createElement(
+          "a",
+          "description",
+          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
+          { href: url },
+        );
+      }
+      if (summary) {
+        pubItem += HTMLUtils.createElement(
+          "p",
+          "",
+          HTMLUtils.safeText(summary),
+        );
+      }
+
+      pubItem += `</div>`;
+      publicationsSection += pubItem;
+    }
+
+    publicationsSection += `</div>`;
+    return publicationsSection;
   }
 }
 
@@ -1046,6 +1221,18 @@ function createLeftColumn(data: JSONResumeSchema): string {
 
   if (data.interests) {
     leftColumn += SectionCreators.createInterestsSection(data.interests);
+  }
+
+  if (data.awards) {
+    leftColumn += SectionCreators.createAwardsSection(data.awards);
+  }
+
+  if (data.certificates) {
+    leftColumn += SectionCreators.createCertificatesSection(data.certificates);
+  }
+
+  if (data.publications) {
+    leftColumn += SectionCreators.createPublicationsSection(data.publications);
   }
 
   if (data.references) {
