@@ -46,9 +46,9 @@ namespace HTMLUtils {
     let element = `<${tagName}`;
     if (className) element += ` class="${escapeHtml(className)}"`;
     for (const [key, value] of Object.entries(attributes)) {
-      element += ` ${escapeHtml(key)}="${escapeHtml(value)}"`;
+      element += ` ${key}="${escapeHtml(value)}"`;
     }
-    element += `>${textContent}</${tagName}>`;
+    element += `>${safeText(textContent)}</${tagName}>`;
     return element;
   }
 
@@ -58,11 +58,13 @@ namespace HTMLUtils {
    * @param title - The title of the section.
    * @returns The generated HTML string for the section.
    */
-  export function createSection(title?: string): string {
+  export function createSection(title?: string, content: string = ""): string {
     let sectionDiv = `<div class="section">`;
     if (title) {
-      sectionDiv += createElement("h2", "", safeText(title));
+      sectionDiv += createElement("h2", "", title);
     }
+    sectionDiv += content;
+    sectionDiv += `</div>`;
     return sectionDiv;
   }
 }
@@ -89,33 +91,21 @@ namespace ContentUtils {
   ): string {
     let contactInfo = `<div class="contact-info">`;
     if (email) {
-      contactInfo += HTMLUtils.createElement(
-        "span",
-        "contact-item",
-        `<i class="fa-solid fa-envelope"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(email), { href: "mailto:" + email })}`,
-      );
+      contactInfo +=
+        `<span class="contact-item"><i class="fa-solid fa-envelope"></i> ${HTMLUtils.createElement("a", "", email, { target: "_blank", rel: "noopener noreferrer", href: "mailto:" + email })}</span>`;
     }
     if (phone) {
-      contactInfo += HTMLUtils.createElement(
-        "span",
-        "contact-item",
-        `<i class="fa-solid fa-phone"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(phone), { href: "tel:" + phone })}`,
-      );
+      contactInfo +=
+        `<span class="contact-item"><i class="fa-solid fa-phone"></i> ${HTMLUtils.createElement("a", "", phone, { target: "_blank", rel: "noopener noreferrer", href: "tel:" + phone })}</span>`;
     }
     if (url) {
-      contactInfo += HTMLUtils.createElement(
-        "span",
-        "contact-item",
-        `<i class="fa-solid fa-globe"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")), { href: url })}`,
-      );
+      contactInfo +=
+        `<span class="contact-item"><i class="fa-solid fa-globe"></i> ${HTMLUtils.createElement("a", "", url.replace(/^https?:\/\//i, ""), { target: "_blank", rel: "noopener noreferrer", href: url })}</span>`;
     }
     for (const profile of profiles) {
       if (profile.network && profile.url) {
-        contactInfo += HTMLUtils.createElement(
-          "span",
-          "contact-item",
-          `<i class="fa-brands fa-${HTMLUtils.escapeHtml(profile.network.toLowerCase())}"></i> ${HTMLUtils.createElement("a", "", HTMLUtils.safeText(profile.url.replace(/^https?:\/\//i, "")), { href: profile.url })}`,
-        );
+        contactInfo +=
+          `<span class="contact-item"><i class="fa-brands fa-${HTMLUtils.escapeHtml(profile.network.toLowerCase())}"></i> ${HTMLUtils.createElement("a", "", profile.url.replace(/^https?:\/\//i, ""), { target: "_blank", rel: "noopener noreferrer", href: profile.url })}</span>`;
       }
     }
     contactInfo += `</div>`;
@@ -138,14 +128,14 @@ namespace ContentUtils {
     let locationLine = `<div class="location">`;
     const locationParts: string[] = [];
     if (location.address)
-      locationParts.push(HTMLUtils.safeText(location.address));
-    if (location.city) locationParts.push(HTMLUtils.safeText(location.city));
+      locationParts.push(location.address);
+    if (location.city) locationParts.push(location.city);
     if (location.region)
-      locationParts.push(HTMLUtils.safeText(location.region));
+      locationParts.push(location.region);
     if (location.postalCode)
-      locationParts.push(HTMLUtils.safeText(location.postalCode));
+      locationParts.push(location.postalCode);
     if (location.countryCode)
-      locationParts.push(HTMLUtils.safeText(location.countryCode));
+      locationParts.push(location.countryCode);
     locationLine += locationParts.join(", ");
     locationLine += `</div>`;
     return locationLine;
@@ -163,7 +153,7 @@ namespace ContentUtils {
       keywordChips += HTMLUtils.createElement(
         "span",
         "chip",
-        HTMLUtils.safeText(keyword),
+        keyword,
       );
     }
     keywordChips += `</div>`;
@@ -183,7 +173,7 @@ namespace ContentUtils {
       highlightList += HTMLUtils.createElement(
         "li",
         "",
-        HTMLUtils.safeText(highlight),
+        highlight,
       );
     }
     highlightList += `</ul>`;
@@ -401,39 +391,55 @@ namespace SectionCreators {
       summary,
     } = basics;
 
-    let basicsSection = HTMLUtils.createSection();
+    const hasContent =
+      name ||
+      label ||
+      image ||
+      email ||
+      phone ||
+      url ||
+      summary ||
+      location.address ||
+      location.city ||
+      location.region ||
+      location.postalCode ||
+      location.countryCode ||
+      profiles.length > 0;
+
+    if (!hasContent) return "";
+
+    let content = "";
     if (image) {
-      basicsSection += HTMLUtils.createElement("img", "", "", {
+      content += HTMLUtils.createElement("img", "", "", {
         class: "profile-picture",
         src: image,
         alt: "Profile Picture",
       });
     }
     if (name) {
-      basicsSection += HTMLUtils.createElement(
+      content += HTMLUtils.createElement(
         "h1",
         "resume-name",
-        HTMLUtils.safeText(name),
+        name,
       );
     }
     if (label) {
-      basicsSection += HTMLUtils.createElement(
+      content += HTMLUtils.createElement(
         "h2",
         "job-title",
-        HTMLUtils.safeText(label),
+        label,
       );
     }
-    basicsSection += ContentUtils.addLocation(location);
-    basicsSection += ContentUtils.addContactInfo(email, phone, url, profiles);
+    content += ContentUtils.addLocation(location);
+    content += ContentUtils.addContactInfo(email, phone, url, profiles);
     if (summary) {
-      basicsSection += HTMLUtils.createElement(
+      content += HTMLUtils.createElement(
         "p",
         "",
-        HTMLUtils.safeText(summary),
+        summary,
       );
     }
-    basicsSection += `</div>`;
-    return basicsSection;
+    return HTMLUtils.createSection("", content);
   }
 
   /**
@@ -447,7 +453,7 @@ namespace SectionCreators {
   ): string {
     if (!languages || languages.length === 0) return "";
 
-    let languagesSection = HTMLUtils.createSection("Languages");
+    let content = "";
 
     for (const language of languages) {
       const { language: lang, fluency } = language;
@@ -457,23 +463,22 @@ namespace SectionCreators {
         languageItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(lang),
+          lang,
         );
       }
       if (fluency) {
         languageItem += HTMLUtils.createElement(
           "h4",
           "subtitle",
-          HTMLUtils.safeText(fluency),
+          fluency,
         );
       }
 
       languageItem += `</div>`;
-      languagesSection += languageItem;
+      content += languageItem;
     }
 
-    languagesSection += `</div>`;
-    return languagesSection;
+    return HTMLUtils.createSection("Languages", content);
   }
 
   /**
@@ -487,7 +492,7 @@ namespace SectionCreators {
   ): string {
     if (!skills || skills.length === 0) return "";
 
-    let skillsSection = HTMLUtils.createSection("Skills");
+    let content = "";
 
     for (const skill of skills) {
       const { name, level, keywords } = skill;
@@ -497,25 +502,24 @@ namespace SectionCreators {
         skillItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
       if (level) {
         skillItem += HTMLUtils.createElement(
           "h4",
           "subtitle",
-          HTMLUtils.safeText(level),
+          level,
         );
       }
       if (keywords && keywords.length > 0) {
         skillItem += ContentUtils.addChips(keywords);
       }
       skillItem += `</div>`;
-      skillsSection += skillItem;
+      content += skillItem;
     }
 
-    skillsSection += `</div>`;
-    return skillsSection;
+    return HTMLUtils.createSection("Skills", content);
   }
 
   /**
@@ -529,7 +533,7 @@ namespace SectionCreators {
   ): string {
     if (!interests || interests.length === 0) return "";
 
-    let interestsSection = HTMLUtils.createSection("Interests");
+    let content = "";
 
     for (const interest of interests) {
       const { name, keywords } = interest;
@@ -539,18 +543,17 @@ namespace SectionCreators {
         interestItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
       if (keywords && keywords.length > 0) {
         interestItem += ContentUtils.addChips(keywords);
       }
       interestItem += `</div>`;
-      interestsSection += interestItem;
+      content += interestItem;
     }
 
-    interestsSection += `</div>`;
-    return interestsSection;
+    return HTMLUtils.createSection("Interests", content);
   }
 
   /**
@@ -564,8 +567,7 @@ namespace SectionCreators {
   ): string {
     if (!references || references.length === 0) return "";
 
-    let referencesSection = `<div class="section references">`;
-    referencesSection += HTMLUtils.createElement("h2", "", "References");
+    let content = "";
 
     for (const ref of references) {
       const { name, reference } = ref;
@@ -575,7 +577,7 @@ namespace SectionCreators {
         referenceItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
 
@@ -585,24 +587,23 @@ namespace SectionCreators {
           referenceItem += HTMLUtils.createElement(
             "a",
             "reference-link",
-            HTMLUtils.safeText(reference.replace(/^https?:\/\//i, "")),
-            { href: reference },
+            reference.replace(/^https?:\/\//i, ""),
+            { target: "_blank", rel: "noopener noreferrer", href: reference },
           );
         } catch (e) {
           referenceItem += HTMLUtils.createElement(
             "p",
             "",
-            HTMLUtils.safeText(reference),
+            reference,
           );
         }
       }
 
       referenceItem += `</div>`;
-      referencesSection += referenceItem;
+      content += referenceItem;
     }
 
-    referencesSection += `</div>`;
-    return referencesSection;
+    return HTMLUtils.createSection("References", content);
   }
 
   /**
@@ -616,7 +617,7 @@ namespace SectionCreators {
   ): string {
     if (!experiences || experiences.length === 0) return "";
 
-    let experienceSection = HTMLUtils.createSection("Experience");
+    let content = "";
 
     for (const experience of experiences) {
       const {
@@ -639,7 +640,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(endDate),
+            endDate,
           );
         } else {
           timeline += HTMLUtils.createElement("span", "date", "Present");
@@ -649,7 +650,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(startDate),
+            startDate,
           );
         }
         timeline += `</div>`;
@@ -662,14 +663,14 @@ namespace SectionCreators {
         experienceItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
       if (description) {
         experienceItem += HTMLUtils.createElement(
           "span",
           "description",
-          HTMLUtils.safeText(description),
+          description,
         );
       }
       if (location || url) {
@@ -678,7 +679,7 @@ namespace SectionCreators {
           locationUrl += HTMLUtils.createElement(
             "span",
             "",
-            HTMLUtils.safeText(location),
+            location,
           );
         }
         if (url) {
@@ -686,8 +687,8 @@ namespace SectionCreators {
           locationUrl += HTMLUtils.createElement(
             "a",
             "url",
-            HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
-            { href: url },
+            url.replace(/^https?:\/\//i, ""),
+            { target: "_blank", rel: "noopener noreferrer", href: url },
           );
         }
         locationUrl += `</div>`;
@@ -698,14 +699,14 @@ namespace SectionCreators {
         experienceItem += HTMLUtils.createElement(
           "h4",
           "subtitle",
-          HTMLUtils.safeText(position),
+          position,
         );
       }
       if (summary) {
         experienceItem += HTMLUtils.createElement(
           "p",
           "",
-          HTMLUtils.safeText(summary),
+          summary,
         );
       }
       if (highlights && highlights.length > 0) {
@@ -714,11 +715,10 @@ namespace SectionCreators {
 
       experienceItem += `</div>`;
       experienceItem += `</div>`;
-      experienceSection += experienceItem;
+      content += experienceItem;
     }
 
-    experienceSection += `</div>`;
-    return experienceSection;
+    return HTMLUtils.createSection("Experience", content);
   }
 
   /**
@@ -732,8 +732,7 @@ namespace SectionCreators {
   ): string {
     if (!projects || projects.length === 0) return "";
 
-    let projectsSection = `<div class="section">`;
-    projectsSection += HTMLUtils.createElement("h2", "", "Projects");
+    let content = "";
 
     for (const project of projects) {
       const {
@@ -755,7 +754,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(endDate),
+            endDate,
           );
         } else {
           timeline += HTMLUtils.createElement("span", "date", "Present");
@@ -765,7 +764,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(startDate),
+            startDate,
           );
         }
         timeline += `</div>`;
@@ -778,7 +777,7 @@ namespace SectionCreators {
         projectItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
       if (url) {
@@ -786,7 +785,7 @@ namespace SectionCreators {
         projectItem += HTMLUtils.createElement(
           "a",
           "description",
-          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
+          url.replace(/^https?:\/\//i, ""),
           {
             href: url,
           },
@@ -797,15 +796,15 @@ namespace SectionCreators {
         projectItem += HTMLUtils.createElement(
           "p",
           "",
-          HTMLUtils.safeText(description),
+          description,
         );
       }
 
       if (entity || (roles && roles.length > 0)) {
         const parts: string[] = [];
-        if (entity) parts.push(HTMLUtils.safeText(entity));
+        if (entity) parts.push(entity);
         if (roles && roles.length > 0)
-          parts.push(HTMLUtils.safeText(roles.join(", ")));
+          parts.push(roles.join(", "));
         projectItem += HTMLUtils.createElement(
           "span",
           "description",
@@ -819,7 +818,7 @@ namespace SectionCreators {
           highlightList += HTMLUtils.createElement(
             "li",
             "",
-            HTMLUtils.safeText(highlight),
+            highlight,
           );
         }
         highlightList += `</ul>`;
@@ -832,11 +831,10 @@ namespace SectionCreators {
 
       projectItem += `</div>`;
       projectItem += `</div>`;
-      projectsSection += projectItem;
+      content += projectItem;
     }
 
-    projectsSection += `</div>`;
-    return projectsSection;
+    return HTMLUtils.createSection("Projects", content);
   }
 
   /**
@@ -850,7 +848,7 @@ namespace SectionCreators {
   ): string {
     if (!volunteer || volunteer.length === 0) return "";
 
-    let volunteerSection = HTMLUtils.createSection("Volunteer");
+    let content = "";
 
     for (const vol of volunteer) {
       const {
@@ -871,7 +869,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(endDate),
+            endDate,
           );
         } else {
           timeline += HTMLUtils.createElement("span", "date", "Present");
@@ -881,7 +879,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(startDate),
+            startDate,
           );
         }
         timeline += `</div>`;
@@ -894,15 +892,15 @@ namespace SectionCreators {
         volItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(organization),
+          organization,
         );
       }
       if (url) {
         volItem += HTMLUtils.createElement(
           "a",
           "description",
-          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
-          { href: url },
+          url.replace(/^https?:\/\//i, ""),
+          { target: "_blank", rel: "noopener noreferrer", href: url },
         );
       }
 
@@ -910,14 +908,14 @@ namespace SectionCreators {
         volItem += HTMLUtils.createElement(
           "div",
           "title-anex",
-          HTMLUtils.safeText(position),
+          position,
         );
       }
       if (summary) {
         volItem += HTMLUtils.createElement(
           "p",
           "",
-          HTMLUtils.safeText(summary),
+          summary,
         );
       }
       if (highlights && highlights.length > 0) {
@@ -926,11 +924,10 @@ namespace SectionCreators {
 
       volItem += `</div>`;
       volItem += `</div>`;
-      volunteerSection += volItem;
+      content += volItem;
     }
 
-    volunteerSection += `</div>`;
-    return volunteerSection;
+    return HTMLUtils.createSection("Volunteer", content);
   }
 
   /**
@@ -944,7 +941,7 @@ namespace SectionCreators {
   ): string {
     if (!education || education.length === 0) return "";
 
-    let educationSection = HTMLUtils.createSection("Education");
+    let content = "";
 
     for (const edu of education) {
       const { institution, url, area, studyType, score, courses, startDate, endDate } =
@@ -958,7 +955,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(endDate),
+            endDate,
           );
         } else {
           timeline += HTMLUtils.createElement("span", "date", "Present");
@@ -968,7 +965,7 @@ namespace SectionCreators {
           timeline += HTMLUtils.createElement(
             "span",
             "date",
-            HTMLUtils.safeText(startDate),
+            startDate,
           );
         }
         timeline += `</div>`;
@@ -981,15 +978,15 @@ namespace SectionCreators {
         eduItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(institution),
+          institution,
         );
       }
       if (url) {
         eduItem += HTMLUtils.createElement(
           "a",
           "description",
-          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
-          { href: url },
+          url.replace(/^https?:\/\//i, ""),
+          { target: "_blank", rel: "noopener noreferrer", href: url },
         );
       }
 
@@ -999,14 +996,14 @@ namespace SectionCreators {
           areaStudy += HTMLUtils.createElement(
             "span",
             "",
-            HTMLUtils.safeText(area),
+            area,
           );
         }
         if (studyType) {
           areaStudy += HTMLUtils.createElement(
             "span",
             "description",
-            HTMLUtils.safeText(studyType),
+            studyType,
           );
         }
         areaStudy += `</div>`;
@@ -1017,7 +1014,7 @@ namespace SectionCreators {
         eduItem += HTMLUtils.createElement(
           "span",
           "description",
-          "GPA: " + HTMLUtils.safeText(score),
+          "GPA: " + score,
         );
       }
 
@@ -1027,7 +1024,7 @@ namespace SectionCreators {
           courseList += HTMLUtils.createElement(
             "li",
             "",
-            HTMLUtils.safeText(course),
+            course,
           );
         }
         courseList += `</ul>`;
@@ -1036,11 +1033,10 @@ namespace SectionCreators {
 
       eduItem += `</div>`;
       eduItem += `</div>`;
-      educationSection += eduItem;
+      content += eduItem;
     }
 
-    educationSection += `</div>`;
-    return educationSection;
+    return HTMLUtils.createSection("Education", content);
   }
 
   export function createAwardsSection(
@@ -1048,7 +1044,7 @@ namespace SectionCreators {
   ): string {
     if (!awards || awards.length === 0) return "";
 
-    let awardsSection = HTMLUtils.createSection("Awards");
+    let content = "";
 
     for (const award of awards) {
       const { title, date, awarder, summary } = award;
@@ -1058,37 +1054,36 @@ namespace SectionCreators {
         awardItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(title),
+          title,
         );
       }
       if (awarder) {
         awardItem += HTMLUtils.createElement(
           "h4",
           "subtitle",
-          HTMLUtils.safeText(awarder),
+          awarder,
         );
       }
       if (date) {
         awardItem += HTMLUtils.createElement(
           "span",
           "description",
-          HTMLUtils.safeText(date),
+          date,
         );
       }
       if (summary) {
         awardItem += HTMLUtils.createElement(
           "p",
           "",
-          HTMLUtils.safeText(summary),
+          summary,
         );
       }
 
       awardItem += `</div>`;
-      awardsSection += awardItem;
+      content += awardItem;
     }
 
-    awardsSection += `</div>`;
-    return awardsSection;
+    return HTMLUtils.createSection("Awards", content);
   }
 
   export function createCertificatesSection(
@@ -1096,7 +1091,7 @@ namespace SectionCreators {
   ): string {
     if (!certificates || certificates.length === 0) return "";
 
-    let certificatesSection = HTMLUtils.createSection("Certificates");
+    let content = "";
 
     for (const cert of certificates) {
       const { name, date, url, issuer } = cert;
@@ -1106,38 +1101,37 @@ namespace SectionCreators {
         certItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
       if (issuer) {
         certItem += HTMLUtils.createElement(
           "h4",
           "subtitle",
-          HTMLUtils.safeText(issuer),
+          issuer,
         );
       }
       if (date) {
         certItem += HTMLUtils.createElement(
           "span",
           "description",
-          HTMLUtils.safeText(date),
+          date,
         );
       }
       if (url) {
         certItem += HTMLUtils.createElement(
           "a",
           "description",
-          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
-          { href: url },
+          url.replace(/^https?:\/\//i, ""),
+          { target: "_blank", rel: "noopener noreferrer", href: url },
         );
       }
 
       certItem += `</div>`;
-      certificatesSection += certItem;
+      content += certItem;
     }
 
-    certificatesSection += `</div>`;
-    return certificatesSection;
+    return HTMLUtils.createSection("Certificates", content);
   }
 
   export function createPublicationsSection(
@@ -1145,7 +1139,7 @@ namespace SectionCreators {
   ): string {
     if (!publications || publications.length === 0) return "";
 
-    let publicationsSection = HTMLUtils.createSection("Publications");
+    let content = "";
 
     for (const pub of publications) {
       const { name, publisher, releaseDate, url, summary } = pub;
@@ -1155,45 +1149,44 @@ namespace SectionCreators {
         pubItem += HTMLUtils.createElement(
           "h3",
           "",
-          HTMLUtils.safeText(name),
+          name,
         );
       }
       if (publisher) {
         pubItem += HTMLUtils.createElement(
           "h4",
           "subtitle",
-          HTMLUtils.safeText(publisher),
+          publisher,
         );
       }
       if (releaseDate) {
         pubItem += HTMLUtils.createElement(
           "span",
           "description",
-          HTMLUtils.safeText(releaseDate),
+          releaseDate,
         );
       }
       if (url) {
         pubItem += HTMLUtils.createElement(
           "a",
           "description",
-          HTMLUtils.safeText(url.replace(/^https?:\/\//i, "")),
-          { href: url },
+          url.replace(/^https?:\/\//i, ""),
+          { target: "_blank", rel: "noopener noreferrer", href: url },
         );
       }
       if (summary) {
         pubItem += HTMLUtils.createElement(
           "p",
           "",
-          HTMLUtils.safeText(summary),
+          summary,
         );
       }
 
       pubItem += `</div>`;
-      publicationsSection += pubItem;
+      content += pubItem;
     }
 
-    publicationsSection += `</div>`;
-    return publicationsSection;
+    return HTMLUtils.createSection("Publications", content);
   }
 }
 
