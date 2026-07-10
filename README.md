@@ -1,5 +1,7 @@
 # JSONResume Theme Bluetime
 
+[![Hippocratic License HL3-BOD-CL-ECO-FFD-LAW-MEDIA-MIL-MY-SV-TAL-USTA-XUAR](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-BOD-CL-ECO-FFD-LAW-MEDIA-MIL-MY-SV-TAL-USTA-XUAR&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/bod-cl-eco-ffd-law-media-mil-my-sv-tal-usta-xuar.html)
+
 ---
 
 A TypeScript-based theme for [JSON Resume](https://jsonresume.org/) called Bluetime.
@@ -115,12 +117,11 @@ fs.writeFileSync('resume.html', htmlResume);
 When using the theme:
 
 - **Browser**: Use `<script type="module">` and `import { render }`
-- **Node.js**: Works with native ES modules (`import` statements)
-- The minified version is recommended for production: `index.min.js`
+- **Node.js**: Works with native ES modules (`import` statements) — requires Node.js 18+
+- The default `import` path gives you the full build; the minified build is available via `dist/index.min.js` for direct CDN usage
 - All styles are embedded in the generated HTML
 - No additional CSS files are needed
-- Compatible with modern browsers supporting ES modules (ES2020+)
-- Uses native ES2020 modules format
+- Compatible with modern browsers supporting ES modules and native CSS nesting (Chrome 120+, Firefox 117+, Safari 17.2+, Edge 120+)
 
 ### CDN URLs
 
@@ -131,9 +132,10 @@ https://cdn.jsdelivr.net/npm/@bluesialia/jsonresume-theme-bluetime/dist/index.mi
 
 ### Browser Compatibility
 
-- **Modern browsers** (Chrome 61+, Firefox 60+, Safari 11+, Edge 16+)
-- **Node.js** 14.8+ with ES modules support
-- Browsers must support ES modules (`<script type="module">`)
+- **Modern browsers** (Chrome 120+, Firefox 117+, Safari 17.2+, Edge 120+) — required for ES modules and native CSS nesting
+- **Node.js** 18+ with ES modules support
+- Browsers must support ES modules (`<script type="module">`) and native CSS nesting
+- Older browsers will render a broken layout due to unsupported CSS nesting syntax
 
 ## JSON Resume Schema
 
@@ -162,12 +164,14 @@ The generated HTML includes embedded CSS that you can customize. The theme uses 
 - Clean section separators
 - Skill tags for easy scanning
 
+> **Note:** The rendered HTML loads Google Fonts (Lato) and Font Awesome icons from CDNs. Offline rendering will show fallback fonts and missing icons.
+
 ## Development
 
 ### Prerequisites
 
-- Node.js 16 or higher
-- npm or yarn
+- Node.js 18 or higher
+- npm
 
 ### Building from Source
 
@@ -196,7 +200,8 @@ dist/
 ├── index.js      # ES2020 modules output
 ├── index.min.js  # Minified ES modules version
 ├── index.d.ts    # TypeScript declarations
-└── types.d.ts    # Type definitions
+├── types.d.ts    # Type definitions
+└── types.js      # Compiled types module
 ```
 
 ### Scripts
@@ -208,11 +213,11 @@ dist/
 - `npm run clean`: Remove dist directory
 
 #### Development Scripts
-- `npm run dev`: Watch mode for development (recompiles on file changes)
+- `npm run dev`: Watch mode for development (recompiles TypeScript on file changes; does not minify)
 - `npm run lint`: Type-check without compilation
 
 #### Testing Scripts
-- `npm test`: Run comprehensive Jest test suite with build
+- `npm test`: Run tests with build using Node.js native test runner
 - `npm run test:watch`: Run tests in watch mode for development
 - `npm run test:coverage`: Run tests with coverage report
 
@@ -222,13 +227,7 @@ dist/
 
 ## Testing
 
-This project includes a comprehensive test suite built with Jest and TypeScript. We maintain high test coverage to ensure reliability and catch regressions.
-
-### Test Coverage
-- **93.61%** statement coverage
-- **85.37%** branch coverage
-- **100%** function coverage
-- **96.29%** line coverage
+This project includes a comprehensive test suite built with the Node.js native test runner and TypeScript. We maintain high test coverage to ensure reliability and catch regressions.
 
 ### Running Tests
 
@@ -241,9 +240,6 @@ npm run test:watch
 
 # Generate coverage report
 npm run test:coverage
-
-# Run the original legacy test
-npm run test:legacy
 ```
 
 ### What's Tested
@@ -256,10 +252,8 @@ The test suite covers:
 - **Contact Information**: Email, phone, URL formatting with proper links
 - **Social Profiles**: Multiple networks with Font Awesome icons
 - **Error Handling**: Missing fields, malformed data, edge cases
-- **Performance**: Rendering speed benchmarks
+- **Performance**: Baseline rendering speed assertion
 - **Accessibility**: Semantic HTML and proper link attributes
-
-For detailed testing information, see [TESTING.md](TESTING.md).
 
 ## Contributing
 
@@ -273,7 +267,7 @@ Contributions are welcome! Please feel free to:
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+[Hippocratic License HL3-BOD-CL-ECO-FFD-LAW-MEDIA-MIL-MY-SV-TAL-USTA-XUAR](LICENSE).
 
 ## Support
 

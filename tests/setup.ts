@@ -1,12 +1,5 @@
 import assert from "node:assert/strict";
 
-export function assertContainsHTML(received: string, expected: string): void {
-  assert.ok(
-    received.includes(expected),
-    `Expected HTML to contain "${expected}"`
-  );
-}
-
 export function assertValidHTML(received: string): void {
   const hasBasicStructure =
     received.includes("<div") && received.includes("</div>");

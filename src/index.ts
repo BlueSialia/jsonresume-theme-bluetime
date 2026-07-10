@@ -813,16 +813,7 @@ namespace SectionCreators {
       }
 
       if (highlights && highlights.length > 0) {
-        let highlightList = `<ul class="highlights">`;
-        for (const highlight of highlights) {
-          highlightList += HTMLUtils.createElement(
-            "li",
-            "",
-            highlight,
-          );
-        }
-        highlightList += `</ul>`;
-        projectItem += highlightList;
+        projectItem += ContentUtils.addHighlights(highlights);
       }
 
       if (keywords && keywords.length > 0) {

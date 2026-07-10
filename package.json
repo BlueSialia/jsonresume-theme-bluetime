@@ -26,6 +26,7 @@
     "dev": "tsc --watch",
     "test": "npm run build && node --import tsx --test tests/**/*.test.ts",
     "test:watch": "node --import tsx --test --watch tests/**/*.test.ts",
+    "test:coverage": "npm run build && node --import tsx --experimental-test-coverage --test-coverage-lines=80 --test tests/**/*.test.ts",
     "lint": "tsc --noEmit",
     "size": "npm run build && echo 'Compiled size:' && ls -lh dist/index.js && echo 'Minified size:' && ls -lh dist/index.min.js"
   },
@@ -47,15 +48,30 @@
     "portfolio"
   ],
   "author": "Jorge Domínguez Arnáez (BlueSialia) <bluesialia@gmail.com>",
-  "license": "MIT",
+  "license": "Hippocratic License 3.0",
   "bugs": {
     "url": "https://github.com/BlueSialia/jsonresume-theme-bluetime/issues"
   },
   "homepage": "https://github.com/BlueSialia/jsonresume-theme-bluetime#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
+    "knip": "^6.26.0",
     "rimraf": "^6.0.0",
+    "size-limit": "^11.2.0",
     "terser": "^5.43.0",
     "tsx": "^4.23.0",
     "typescript": "^5.0.0"
-  }
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "50 KB"
+    },
+    {
+      "path": "dist/index.min.js",
+      "limit": "15 KB"
+    }
+  ]
 }

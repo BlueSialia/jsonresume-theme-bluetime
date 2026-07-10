@@ -1,32 +1,16 @@
-# Source files (we include dist/ in the package)
-src/
-*.ts
-!*.d.ts
+# Exclude source maps and build artifacts from the published dist/ directory
+dist/*.map
 
-# Development files
-resume.html
-tsconfig.json
-
-# Build artifacts that shouldn't be published
-*.tsbuildinfo
-*.log
-test.js
-test-output.html
-resume.html
-
-# Development dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Testing
-test/
+# Exclude test files
 tests/
-*.test.js
 *.test.ts
-*.spec.js
+*.test.js
 *.spec.ts
+*.spec.js
+
+# Exclude development files
+index.html
+setup-hooks.sh
 coverage/
 
 # IDE and editor files
@@ -45,24 +29,10 @@ coverage/
 ehthumbs.db
 Thumbs.db
 
+# CI/CD
+.github/
+
 # Git
 .git/
 .gitignore
-
-# CI/CD
-.github/
-.travis.yml
-.circleci/
-
-# Documentation drafts
-docs/
-CONTRIBUTING.md
-CHANGELOG.md
-PUBLISHING.md
-
-# Local environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.githooks/
