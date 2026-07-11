@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.5.0...jsonresume-theme-bluetime-v0.6.0) (2026-07-11)
+
+
+### Features
+
+* add theme customization support ([5cf2d8c](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/5cf2d8c7f3622cdf10b5f3212dc1c673b0fbbb76))
+
 ## [0.5.0](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.4.2...jsonresume-theme-bluetime-v0.5.0) (2026-07-11)
 
 
