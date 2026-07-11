@@ -1,7 +1,7 @@
-import { describe, test } from "node:test";
 import assert from "node:assert/strict";
+import { describe, test } from "node:test";
 import { render } from "../src/index";
-import { JSONResumeSchema } from "../src/types";
+import type { JSONResumeSchema } from "../src/types";
 import { assertValidHTML } from "./setup.ts";
 
 describe("Render Function", () => {
@@ -72,7 +72,7 @@ describe("Render Function", () => {
       const result = render(resume);
       assert.ok(result.includes("john@example.com"), `Expected to contain "john@example.com"`);
       assert.ok(result.includes("123-456-7890"), `Expected to contain "123-456-7890"`);
-      assert.ok(result.includes("johndoe.com"), `Expected to contain "johndoe.com"`);
+      assert.ok(result.includes(">johndoe.com<"), `Expected to contain ">johndoe.com<"`);
       assert.ok(result.includes("mailto:john@example.com"), `Expected to contain "mailto:john@example.com"`);
       assert.ok(result.includes("tel:123-456-7890"), `Expected to contain "tel:123-456-7890"`);
     });
@@ -283,7 +283,7 @@ describe("Render Function", () => {
       const result = render(resume);
       assert.ok(result.includes("E-commerce Platform"), `Expected to contain "E-commerce Platform"`);
       assert.ok(result.includes("Built a full-stack e-commerce solution"), `Expected to contain "Built a full-stack e-commerce solution"`);
-      assert.ok(result.includes("example.com"), `Expected to contain "example.com"`);
+      assert.ok(result.includes(">example.com<"), `Expected to contain ">example.com<"`);
       assert.ok(result.includes("React"), `Expected to contain "React"`);
       assert.ok(result.includes("Node.js"), `Expected to contain "Node.js"`);
     });

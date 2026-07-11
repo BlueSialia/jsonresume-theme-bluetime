@@ -1,7 +1,7 @@
-import { describe, test } from "node:test";
 import assert from "node:assert/strict";
+import { describe, test } from "node:test";
 import { render } from "../src/index";
-import { JSONResumeSchema } from "../src/types";
+import type { JSONResumeSchema } from "../src/types";
 import { assertValidHTML } from "./setup.ts";
 
 describe("Functional Tests", () => {
@@ -36,7 +36,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
       assert.ok(result.includes('href="https://example.com"'), `Expected to contain 'href="https://example.com"'`);
-      assert.ok(result.includes("example.com"), `Expected to contain "example.com"`); // Should strip protocol from display
+      assert.ok(result.includes(">example.com<"), `Expected to contain ">example.com<"`); // Should strip protocol from display
       assert.ok(result.includes("fa-globe"), `Expected to contain "fa-globe"`);
     });
 
@@ -58,7 +58,7 @@ describe("Functional Tests", () => {
         },
       };
       const result = render(resume);
-      assert.ok(result.includes("example.com"), `Expected to contain "example.com"`);
+      assert.ok(result.includes(">example.com<"), `Expected to contain ">example.com<"`);
       assert.ok(result.includes('href="http://example.com"'), `Expected to contain 'href="http://example.com"'`);
     });
   });
@@ -235,7 +235,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      assert.ok(result.includes("techstartup.com"), `Expected to contain "techstartup.com"`);
+      assert.ok(result.includes(">techstartup.com<"), `Expected to contain ">techstartup.com<"`);
     });
   });
 
@@ -350,7 +350,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      assert.ok(result.includes("mystore.com"), `Expected to contain "mystore.com"`);
+      assert.ok(result.includes(">mystore.com<"), `Expected to contain ">mystore.com<"`);
       assert.ok(result.includes('href="https://mystore.com"'), `Expected to contain 'href="https://mystore.com"'`);
     });
 
@@ -418,7 +418,7 @@ describe("Functional Tests", () => {
       };
       const result = render(resume);
 
-      assert.ok(result.includes("opensource.org"), `Expected to contain "opensource.org"`);
+      assert.ok(result.includes(">opensource.org<"), `Expected to contain ">opensource.org<"`);
     });
   });
 
@@ -474,7 +474,7 @@ describe("Functional Tests", () => {
 
     test("should include Google Fonts", () => {
       const result = render({});
-      assert.ok(result.includes("fonts.googleapis.com"), `Expected to contain "fonts.googleapis.com"`);
+      assert.ok(result.includes("fonts.googleapis.com/css2"), `Expected to contain "fonts.googleapis.com/css2"`);
       assert.ok(result.includes("Lato"), `Expected to contain "Lato"`);
     });
 
