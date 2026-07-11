@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.6.0...jsonresume-theme-bluetime-v0.6.1) (2026-07-11)
+
+
+### Bug Fixes
+
+* update Node.js version from 22 to 24 ([0bd6429](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/0bd642960b1f0537dfb6d03220373cb509febf00))
+
 ## [0.6.0](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.5.0...jsonresume-theme-bluetime-v0.6.0) (2026-07-11)
 
 
