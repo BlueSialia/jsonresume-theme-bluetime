@@ -1,4 +1,4 @@
-import { JSONResumeSchema } from "./types";
+import type { JSONResumeSchema, ThemeConfig } from "./types";
 
 // ============================================================================
 // HTML UTILITIES NAMESPACE
@@ -182,12 +182,22 @@ namespace ContentUtils {
 }
 
 // ============================================================================
-// STYLES CONSTANT
+// THEME HELPERS
 // ============================================================================
 
-const THEME_STYLES = `
+function generateFontImport(font: string): string {
+  const urlFont = font.replace(/ /g, "+");
+  return `https://fonts.googleapis.com/css2?family=${urlFont}:wght@300;400;700&display=swap`;
+}
+
+// ============================================================================
+// STYLES
+// ============================================================================
+
+function generateStyles(fontImport: string): string {
+  return `
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+  @import url('${fontImport}');
   @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css');
 
   .resume-container {
@@ -195,7 +205,6 @@ const THEME_STYLES = `
     padding: 20px;
     max-width: 1600px;
     margin: auto;
-    font-family: "Lato", sans-serif;
     font-size: 14px;
 
     h1, h2, h3, h4 {
@@ -271,7 +280,7 @@ const THEME_STYLES = `
           top: 5px;
           width: 16px;
           height: 16px;
-          background-color: #007BFF;
+          background-color: var(--theme-accent);
           border-radius: 50%;
         }
 
@@ -318,7 +327,7 @@ const THEME_STYLES = `
       }
 
       .chip {
-        background-color: #007BFF;
+        background-color: var(--theme-accent);
         color: white;
         padding: 3px 6px;
         border-radius: 20px;
@@ -354,7 +363,7 @@ const THEME_STYLES = `
 
     .contact-item {
       text-decoration: none;
-      color: #007BFF;
+      color: var(--theme-accent);
     }
   }
 
@@ -370,6 +379,7 @@ const THEME_STYLES = `
   }
 </style>
 `;
+}
 
 // ============================================================================
 // SECTION CREATORS NAMESPACE
@@ -1267,11 +1277,15 @@ function createRightColumn(data: JSONResumeSchema): string {
  * @param data - JSON Resume data object
  * @returns Complete HTML string with embedded styles
  */
-export function render(data: JSONResumeSchema): string {
-  let resumeContainer = `<div class="resume-container">`;
+export function render(data: JSONResumeSchema, config?: ThemeConfig): string {
+  const font = config?.font ?? "Lato";
+  const accentColor = config?.color ?? "#007BFF";
+  const fontFamily = `'${font}', sans-serif`;
+
+  let resumeContainer = `<div class="resume-container" style="--theme-accent: ${accentColor}; font-family: ${fontFamily}">`;
 
   // Add embedded styles
-  resumeContainer += THEME_STYLES;
+  resumeContainer += generateStyles(generateFontImport(font));
 
   // Create the left column with personal info and skills
   resumeContainer += createLeftColumn(data);

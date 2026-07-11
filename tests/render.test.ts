@@ -8,11 +8,16 @@ describe("Render Function", () => {
   describe("Basic functionality", () => {
     test("should render empty resume", () => {
       const result = render({});
-      assert.ok(result.includes('<div class="resume-container">'), `Expected to contain '<div class="resume-container">'`);
+      assert.ok(result.includes('class="resume-container"'), `Expected to contain 'class="resume-container"'`);
       assert.ok(result.includes('<div class="left-column">'), `Expected to contain '<div class="left-column">'`);
       assert.ok(result.includes('<div class="right-column">'), `Expected to contain '<div class="right-column">'`);
       assert.ok(result.includes("<style>"), `Expected to contain "<style>"`);
       assertValidHTML(result);
+    });
+
+    test("should include default accent color", () => {
+      const result = render({});
+      assert.ok(result.includes('--theme-accent: #007BFF'), `Expected default accent color variable`);
     });
 
     test("should return a string", () => {
@@ -23,7 +28,7 @@ describe("Render Function", () => {
     test("should include CSS styles", () => {
       const result = render({});
       assert.ok(result.includes("@import url"), `Expected to contain "@import url"`);
-      assert.ok(result.includes('font-family: "Lato"'), `Expected to contain 'font-family: "Lato"'`);
+      assert.ok(result.includes("font-family: 'Lato', sans-serif"), `Expected to contain font-family: 'Lato', sans-serif`);
       assert.ok(result.includes(".resume-container"), `Expected to contain ".resume-container"`);
     });
 
@@ -517,7 +522,7 @@ describe("Render Function", () => {
 
       // Check structure
       assertValidHTML(result);
-      assert.ok(result.includes('<div class="resume-container">'), `Expected to contain '<div class="resume-container">'`);
+      assert.ok(result.includes('class="resume-container"'), `Expected to contain 'class="resume-container"'`);
       assert.ok(result.includes('<div class="left-column">'), `Expected to contain '<div class="left-column">'`);
       assert.ok(result.includes('<div class="right-column">'), `Expected to contain '<div class="right-column">'`);
     });

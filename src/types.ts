@@ -135,3 +135,10 @@ export interface Meta {
   version?: string;
   lastModified?: string;
 }
+
+export interface ThemeConfig {
+  /** Font family name from Google Fonts. Default: "Lato" */
+  font?: string;
+  /** Accent color for chips, timeline dots, and links. Default: "#007BFF" */
+  color?: string;
+}
