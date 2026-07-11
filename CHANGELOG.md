@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.6.1...jsonresume-theme-bluetime-v0.6.2) (2026-07-11)
+
+
+### Bug Fixes
+
+* improve URL assertion specificity in tests ([ae4f19f](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/ae4f19f12a7b1f9897bc9b3b24be80ef6970d317))
+
 ## [0.6.1](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.6.0...jsonresume-theme-bluetime-v0.6.1) (2026-07-11)
 
 
