@@ -21,6 +21,7 @@ coverage/
 *~
 
 # OS generated files
+.direnv/
 .DS_Store
 .DS_Store?
 ._*

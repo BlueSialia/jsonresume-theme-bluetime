@@ -198,3 +198,12 @@ we decided to centralize highlight rendering in `ContentUtils.addHighlights`
 and call it from all section creators including projects,
 to achieve consistent HTML output and avoid duplicated logic,
 accepting that `addHighlights` returns an empty string when highlights are null or empty.
+
+### Nix Flake and Mise Development Environment
+
+In the context of providing a reproducible local development environment for contributors,
+facing the choice between documenting manual tool installation and automating the environment,
+we decided to declare the Node.js version in `mise.toml` and expose it through a Nix `flake.nix` dev shell that prepends the mise shims directory to `PATH`,
+and neglected relying solely on a hand-installed Node.js,
+to achieve a reproducible, version-pinned toolchain that matches CI (Node 24),
+accepting that contributors must install Nix, direnv, and mise.
