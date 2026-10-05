@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.6.2...jsonresume-theme-bluetime-v0.7.0) (2026-10-05)
+
+
+### Features
+
+* add reproducible development environment with Nix and mise ([c00bb5f](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/c00bb5fd4b1c101add73eda78ed7dce7659c6c24))
+
+
+### Bug Fixes
+
+* CPU denial of service and DoS via uncontrolled recursion in ([031848a](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/031848af9814843ba805b5bcba64367ab846011b))
+* DoS vulnerability in brace-expansion ([4bd31a1](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/4bd31a1e505fb4d882a1a3f71e0efd9594064cba))
+* DoS vulnerability in smol-toml ([dac0217](https://github.com/BlueSialia/jsonresume-theme-bluetime/commit/dac021758f3798f6498b445bc62ba092982105d9))
+
 ## [0.6.2](https://github.com/BlueSialia/jsonresume-theme-bluetime/compare/jsonresume-theme-bluetime-v0.6.1...jsonresume-theme-bluetime-v0.6.2) (2026-07-11)
 
 
